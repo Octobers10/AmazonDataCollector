@@ -16,7 +16,7 @@ The sample cleaned output of all three kinds of data (merged) is in the demo.xls
 1. Create keywords that you are interested in
 2. Collect product ranking data by keywords to see what products are ranked high under these keywords
 3. Remove duplicated ASINs, and collect product basic information
-4. Collect product review information
-(Optional) If you want to classify products using the data collected and you have labelled trainning data available, this tool is designed for product classification:
+4. Collect product review information 
+5. If you want to classify products using the data collected and you have labelled trainning data available, this tool is designed for product classification:
 https://github.com/Octobers10/AmazonProductClassification
 
