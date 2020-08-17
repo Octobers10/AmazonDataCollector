@@ -3,6 +3,7 @@ import find_review as fr
 
 import xlwings as xw 
 import sys
+import logging
 import datetime
 import time
 
@@ -25,6 +26,7 @@ def welcome_display():
     read_file=None
     file_option=0
     print("====================================================================")
+    logging.info("          Welcome to use Amazon Data Collection Tool 1.0              ")
     print("          Welcome to use Amazon Data Collection Tool 1.0              ")
     print("====================================================================")
     print("Instruction: ")
@@ -82,7 +84,6 @@ def var_list_generator(year_list, count_month=False):
         else:
             var = var + [str_year]
     return tuple(var)
-
 
 def set_count_year():
     '''
@@ -144,13 +145,11 @@ def search_fill(read_file, count_month, year_list, var_list):
     '''
     global write_file
     
-    print("====================================================================")
-    print("======================     Start scraping     ======================")
-    print("====================================================================")
+    logging.info("======================     Start scraping     ======================")
     
 
     for ASIN in read_file:
-        print("Start searching for ASIN:", ASIN)
+        logging.info("Start searching for ASIN:", ASIN)
         write_line = {}
         write_line['ASIN']=ASIN
         if count_month:
@@ -187,7 +186,7 @@ def search_fill(read_file, count_month, year_list, var_list):
                         total_review, upper_bound = fr.quick_count(ASIN, year, upper_bound)
                         write_line[year_total_review_name] = total_review
                     except: 
-                        print(sys.exc_info())
+                        logging.error(sys.exc_info())
                         write_line[year_total_review_name] = 'Err'
                 else: 
                     write_line[year_total_review_name] = 0
@@ -199,12 +198,13 @@ def end_display():
     '''
     displays the ending message and save the scraped data into Excel file
     '''
-    
+
     global write_file
     current_time = str(datetime.datetime.now())
     file_name = "Total Reviews " + current_time + ".xlsx"
     write_file.to_excel(file_name, sheet_name='Data')
     print("====================================================================")
+    logging.info("Task finished. The file is saved as \"" +file_name +"\". Thank you for using Amazon Data Collection Tool.")
     print("Task finished. The file is saved as \"" +file_name +"\". Thank you for using Amazon Data Collection Tool.")
     print("====================================================================")
 

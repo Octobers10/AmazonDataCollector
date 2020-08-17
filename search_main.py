@@ -1,6 +1,7 @@
 import web_reader
 import xlwings as xw 
 import sys
+import logging
 import datetime
 from fake_useragent import UserAgent
 import pandas as pd
@@ -19,6 +20,7 @@ def welcome_display():
         pandas.Series: the list of ASINs
     '''
     print("====================================================================")
+    logging.info("    Welcome to use Amazon Search Term Result Collection Tool 1.0    ")
     print("    Welcome to use Amazon Search Term Result Collection Tool 1.0    ")
     print("====================================================================")
     print("Instruction: ")
@@ -134,6 +136,7 @@ def end_display(rank):
     file_name = "Search_Result_ASIN " + current_time + ".xlsx"
     write_file.to_excel(file_name, sheet_name='Data',index=False)
     print("====================================================================")
+    logging.info("Task finished. The file is saved as \"" +file_name +"\". Thank you for using Amazon Data Collection Tool.")
     print("Task finished. The file is saved as \"" +file_name +"\". Thank you for using Amazon Data Collection Tool.")
     print("====================================================================")
 
@@ -141,10 +144,8 @@ def main():
     global write_file
     raw_search_term_list = welcome_display()
     num_of_product = set_num_product()
-    print("====================================================================")
-    print("======================     Start scraping     ======================")
-    print("====================================================================")
-    
+    logging.info("======================     Start scraping     ======================")
+
     ua = UserAgent().random
     for search_term in raw_search_term_list:
         counter=0

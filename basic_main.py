@@ -23,6 +23,7 @@ def welcome_display():
     
     read_file = None
     print("====================================================================")
+    logging.info("        Welcome to use Amazon Basic Info Collection Tool 1.0        ")
     print("        Welcome to use Amazon Basic Info Collection Tool 1.0        ")
     print("====================================================================")
     print("Instruction: ")
@@ -64,15 +65,13 @@ def search_fill(read_file):
         pandas.Series: the list of ASINs
     '''
     
-    print("====================================================================")
-    print("======================     Start scraping     ======================")
-    print("====================================================================")
+    logging.info("======================     Start scraping     ======================")
     
     global write_file
     ua = UserAgent().random
 
     for ASIN in read_file:
-        print("Start scraping ASIN:", ASIN)
+        logging.info("Start scraping ASIN:", ASIN)
         write_line = {}
         write_line['ASIN']=ASIN
         main_page_link = fb.get_main_page_link(str(ASIN))
@@ -96,7 +95,7 @@ def search_fill(read_file):
             write_line['Brand']=fb.find_brand(product_detail_table,main_page_response)
             write_line['SKU Number'] = fb.find_SKU(product_detail_table)
         except:
-            print("Unexpected error for product_detail_table:", sys.exc_info())
+            logging.error("Unexpected error for product_detail_table:", sys.exc_info())
             write_line['Brand']='Err'
             write_line['SKU Number'] = 'Err'
         try: 
@@ -104,7 +103,7 @@ def search_fill(read_file):
             write_line['Long Description']=fb.find_long_description(main_page_response)
             write_line['Price'] = fb.find_price(main_page_response)
         except:
-            print("Unexpected error for Description & Price:", sys.exc_info())
+            logging.error("Unexpected error for Description & Price:", sys.exc_info())
             write_line['Title']='Err'
             write_line['Price'] = 'Err'
             write_line['Long Description']='Err'
@@ -115,10 +114,10 @@ def end_display():
     '''
     displays the ending message and save the scraped data into Excel file
     '''
-    
     global write_file
     write_file.to_excel("ASIN_Basic_Info.xlsx", sheet_name='Data')
     print("====================================================================")
+    logging.info("Task finished. The file is saved as \"ASIN_Basic_Info.xlsx\". Thank you for using Amazon Data Collection Tool.")
     print("Task finished. The file is saved as \"ASIN_Basic_Info.xlsx\". Thank you for using Amazon Data Collection Tool.")
     print("====================================================================")
 
@@ -126,7 +125,6 @@ def main():
     '''
     starts the entire operation that collects basic information for given ASINs
     '''
-    
     read_file = welcome_display()
     search_fill(read_file)
     end_display()

@@ -3,6 +3,7 @@ from datetime import datetime
 import random
 from string import ascii_letters, digits
 from scrapy import Selector
+import logging
 
 
 #2. Variation Table
@@ -64,7 +65,7 @@ def get_main_page_link(ASIN):
     qid7="&"+ str(int(time_stamp_now))
     sr8="&sr=8-1"
     url = part1 + random_string2 + dp3 + ASIN4 + ref5 + lang6 + qid7 + sr8
-    print("     main page url: ", url)
+    logging.info("     main page url: ", url)
     return url
 
 

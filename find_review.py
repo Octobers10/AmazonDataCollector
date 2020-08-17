@@ -9,6 +9,7 @@ import re
 from datetime import datetime
 import random
 from string import ascii_letters, digits
+import logging
 
 
 def get_review_page_link_with_number(ASIN, pageNumber):
@@ -51,7 +52,7 @@ def get_review_page_link_with_number(ASIN, pageNumber):
     conditions6="ie=UTF8&reviewerType=avp_only_reviews&sortBy=recent&pageNumber="+str(pageNumber)
     format_type = "&formatType=current_format"
     url = part1 + random_string2 + part3 + ASIN4 + part_ref5 + conditions6 + format_type
-    print("     review page url:", url)
+    logging.info("     review page url:", url)
     return url
 
 
@@ -133,6 +134,7 @@ def organize_review(dataframe, list_yrs):
 
 def quick_count(ASIN, counted_year, lower_bound=None):
     '''
+    Interpolation Search
     count # of review in this specific year for the given ASIN 
     note: this method is efficient only based on the following assumptions:
         1. you are counting the past year # of reviews
@@ -278,7 +280,7 @@ def quick_count(ASIN, counted_year, lower_bound=None):
     digit_pattern = re.compile('\s(\d+(?:,\d+)*)\s')
     total_review = int(digit_pattern.search(total_review_line).group().replace(',',''))
     if total_review > 5000: total_review = 5000
-    print("Total reviews:", total_review)
+    logging.info("Total reviews:", total_review)
     last_page_number = ceil(total_review/10)
 
     response_last = web_reader.get_response(get_review_page_link_with_number(ASIN,last_page_number),ua)
@@ -311,25 +313,20 @@ def quick_count(ASIN, counted_year, lower_bound=None):
         try:
             data = data[str(counted_year)]
             total_count = len(data)
-            print("ASIN:", ASIN, "total review:", total_count)
+            logging.info("ASIN:", ASIN, "total review:", total_count)
             return total_count, None
         except:
-            print("ASIN:", ASIN, "total review:", 0)
+            logging.info("ASIN:", ASIN, "total review:", 0)
             return 0, None
         
     #case 3: first review year = last review year = counted year => all reviews are from the counted year
     if ((first_last_diff == 0) and (last_dates[-1] == counted_year)):
-        print("ASIN:", ASIN, "total review:", total_review)
+        logging.info("ASIN:", ASIN, "total review:", total_review)
         return total_review, None
-        '''
-        #case 4: first review year = last review year ≠ counted year => all reviews are not from the counted year
-        elif first_last_diff == 0:
-        print("ASIN:", ASIN, "total review:", 0)
-        return 0
-        '''
+
     #case 4: last review's year > counted year => all reviews are written after the counted year
     elif (last_dates[-1] > counted_year): 
-        print("ASIN:", ASIN, "total review:", 0)
+        logging.info("ASIN:", ASIN, "total review:", 0)
         return 0, None
     
     #case 5: last review's year = counted year => upper bound is the last page
@@ -353,5 +350,5 @@ def quick_count(ASIN, counted_year, lower_bound=None):
     else:    
         total_count = 10 * (upper_bound - lower_bound - 1) + count_low + count_up
         
-    print("ASIN:", ASIN, "lower_bound:", lower_bound, "upper_bound:", upper_bound, "total review:", total_count)
+    logging.info("ASIN:", ASIN, "lower_bound:", lower_bound, "upper_bound:", upper_bound, "total review:", total_count)
     return total_count, upper_bound

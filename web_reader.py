@@ -26,7 +26,7 @@ def get_response(url, ua, referer=None):
     
     #ua='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36'
     ran=random.randint(5,10)
-    print("         Start scraping")
+    logging.info("         Start scraping")
     
     my_headers = {
         "User-Agent":ua, 
