@@ -4,7 +4,7 @@ import find_review as fr
 import xlwings as xw 
 import sys
 import logging
-import datetime
+from datetime import datetime
 import time
 
 import numpy as np
@@ -94,7 +94,7 @@ def set_count_year():
     '''
     
     year_list = None
-    this_year  = datetime.datetime.today().year
+    this_year  = datetime.today().year
     while True:
         print(" Enter the year you want to count, seperated by comma (e.g. 2019,2018,2017)")
         year_string=input()
@@ -200,7 +200,7 @@ def end_display():
     '''
 
     global write_file
-    current_time = str(datetime.datetime.now())
+    current_time = str(datetime.now())
     file_name = "Total Reviews " + current_time + ".xlsx"
     write_file.to_excel(file_name, sheet_name='Data')
     print("====================================================================")
