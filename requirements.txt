@@ -3,14 +3,6 @@ fake-useragent==0.1.11
 html5lib==1.0.1
 joblib==0.13.2
 json5==0.8.5
-jupyter==1.0.0
-jupyter-client==5.3.3
-jupyter-console==6.0.0
-jupyter-core==4.5.0
-jupyter-server==0.1.1
-jupyterlab==1.1.4
-jupyterlab-pygments==0.1.0
-jupyterlab-server==1.0.6
 lxml==4.4.1
 notebook==6.0.1
 openpyxl==3.0.0
