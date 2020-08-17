@@ -6,5 +6,6 @@ AmazonDataCollector is a project I wrote to automate and optimize data collectio
 
 # Usage
 1. Download this folder and fill the template CSV file with the keywords/ASINs
-2. run "。/main.py" in your shell
+2. run "$ pip install -r requirements.txt"
+3. run "$ ./main.py"
 
